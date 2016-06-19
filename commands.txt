@@ -1,0 +1,69 @@
+//init db and start service
+initdb H:db/data
+pg_ctl start PGDATA H:/db/data -l H:/db/log/server.log
+//after set environments of PGDATA just run
+pg_ctl start -l H:/db/log/server.log
+
+//login
+psql -h localhost -p 5432 postgres Administrator
+//after set environment parameters of PGDATABASE, PGHOST, PGPORT, PGUSER just run
+psql
+
+//create user
+create user admin;
+alter user admin with encrypted password 'admin';
+
+//display users
+\du
+
+//create database
+create database userservice owner 'admin';
+//display all databases
+\t
+
+//connect to userservice as user admin
+\c usercservice admin
+
+//create schema
+create schema schema_one
+
+//to coporate with other databases
+create schema admin
+
+//display all schema
+\dn 
+
+//display default schema
+show search_path;
+
+//change default schema in current session
+SET search_path = new_schema,public,.....
+
+//to change default schema permently in postgresql.conf  alter
+#search_path = '"$user",public'		# schema names
+search_path = '"$user",new_schema'	# NEW SCHEMA HERE
+
+
+//after set local search_path create table like below are the same
+ceate table table_one(id int);
+create table admin.table_one(id int);
+
+//display schema and table info
+\dt+
+
+
+//display table details
+\d tablename
+
+//primary key self increment
+CREATE TABLE customers  (customerid SERIAL primary key)
+
+CREATE SEQUENCE event_id_seq  
+START WITH 1  
+INCREMENT BY 1  
+NO MINVALUE  
+NO MAXVALUE  
+CACHE 1;  
+   
+alter table event alter column id set default nextval('event_id_seq');
+
